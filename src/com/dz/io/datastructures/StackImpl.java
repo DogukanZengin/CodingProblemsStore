@@ -1,6 +1,8 @@
 package com.dz.io.datastructures;
 
-public class StackImpl<T>{
+import java.util.Stack;
+
+public class StackImpl<T> extends Stack<T> {
 
     private static class Node<T> {
         T data;
@@ -13,19 +15,25 @@ public class StackImpl<T>{
     }
 
     private Node<T> top;
+    private Node<T> min;
 
     public T peek() {
         return top.data;
     }
 
-    public void push(T data) {
+    public T push(T data) {
         top = new Node<>(data,top);
+        return top.data;
     }
 
     public T pop() {
         T data = top.data;
         top = top.next;
         return data;
+    }
+
+    public Node<T> min(){
+        return min;
     }
 
     public boolean isEmpty(){
