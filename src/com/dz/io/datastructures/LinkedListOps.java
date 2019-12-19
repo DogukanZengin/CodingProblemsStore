@@ -9,22 +9,6 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class LinkedListOps {
-    private static class Node {
-        int item;
-        Node next;
-        Node prev;
-
-        Node(int element,Node next) {
-            this.item = element;
-            this.next = next;
-        }
-
-        Node(int element,Node next, Node prev) {
-            this.item = element;
-            this.next = next;
-            this.prev = prev;
-        }
-    }
     /**
      * Remove duplicates
      * If no temporary buffer is given, it could be solved with O(n^2) complexity with iterating through with inner loops
@@ -100,8 +84,7 @@ public class LinkedListOps {
             previous = previous.next;
             pointer++;
         }
-        Node newCurrent = new Node(data,previous.next);
-        previous.next = newCurrent;
+        previous.next = new Node(data,previous.next);
 
         return head;
     }
@@ -190,6 +173,23 @@ public class LinkedListOps {
             if (node != null) {
                 System.out.print(sep);
             }
+        }
+    }
+
+    private static class Node {
+        int item;
+        Node next;
+        Node prev;
+
+        Node(int element,Node next) {
+            this.item = element;
+            this.next = next;
+        }
+
+        Node(int element,Node next, Node prev) {
+            this.item = element;
+            this.next = next;
+            this.prev = prev;
         }
     }
 }
