@@ -102,6 +102,56 @@ public class LinkedListOps {
 
     }
 
+    /**
+     * Brute force
+     * @param head1
+     * @param head2
+     * @return
+     */
+    static Node findMergePoint(Node head1, Node head2){
+        Node head1cp = head1;
+        outer : while(head1cp != null){
+            Node head2cp = head2;
+            while(head2cp != null){
+                if(head1cp == head2cp){
+                    break outer;
+                }
+                head2cp = head2cp.next;
+            }
+            head1cp = head1cp.next;
+        }
+        return head1cp;
+    }
+
+    /**
+     * A better approach
+     * @param head1
+     * @param head2
+     * @return
+     */
+    static int findMergePointEffective(Node head1, Node head2){
+        Node currentA = head1;
+        Node currentB = head2;
+
+        //Do till the two nodes are the same
+        while(currentA != currentB){
+            //If you reached the end of one list start at the beginning of the other one
+            //currentA
+            if(currentA.next == null){
+                currentA = head2;
+            }else{
+                currentA = currentA.next;
+            }
+            //currentB
+            if(currentB.next == null){
+                currentB = head1;
+            }else{
+                currentB = currentB.next;
+            }
+        }
+        return currentB.item;
+    }
+
     private static final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args){
 
