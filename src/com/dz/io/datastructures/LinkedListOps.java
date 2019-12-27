@@ -1,9 +1,6 @@
 package com.dz.io.datastructures;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class LinkedListOps {
     /**
@@ -19,6 +16,29 @@ public class LinkedListOps {
             }
         }
         return list;
+    }
+
+    /**
+     *Partition: Write code to partition a linked list around a value x,
+     * such that all nodes less than x come before all nodes greater than
+     * or equal to x. lf x is contained within the list,
+     * the values of x only need to be after the elements less than x (see below).
+     * The partition element x can appear anywhere in the "right partition"; it does not need to appear between the left and right partitions.
+     */
+    public static void partition(Node root){
+        TreeSet<Integer> bst = new TreeSet<>();
+        while(root != null){
+            bst.add(root.item);
+            root = root.next;
+        }
+        int firstValue = bst.pollFirst();
+        Node newRoot = new Node(firstValue);
+        while(!bst.isEmpty()){
+            int value = bst.pollFirst();
+            Node newNode = new Node(value);
+            newRoot.next = newNode;
+        }
+
     }
 
     /**
@@ -231,6 +251,9 @@ public class LinkedListOps {
         Node(int element,Node next) {
             this.item = element;
             this.next = next;
+        }
+        Node(int element) {
+            this.item = element;
         }
 
         Node(int element,Node next, Node prev) {
