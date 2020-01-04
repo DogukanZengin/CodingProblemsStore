@@ -36,6 +36,15 @@ public class StringCompression {
         return sb.toString().length() == s.length() ? s : sb.toString();
     }
 
+    static boolean isRotation(String s1, String s2){
+        boolean isRotation = true;
+        String concat = s2.concat(s1);
+        if(!concat.contains(s1)){
+            isRotation = false;
+        }
+        return isRotation;
+    }
+
     public static void main(String[] args) {
         System.out.println(compression("aaaaabbbccccccceaaaafffggfg"));
     }
