@@ -27,17 +27,17 @@ public class LinkedListOps {
      * the values of x only need to be after the elements less than x (see below).
      * The partition element x can appear anywhere in the "right partition"; it does not need to appear between the left and right partitions.
      */
-    public static void partition(Node root){
+    public static void partition(Node<Integer> root){
         TreeSet<Integer> bst = new TreeSet<>();
         while(root != null){
             bst.add(root.item);
             root = root.next;
         }
         int firstValue = bst.pollFirst();
-        Node newRoot = new Node(firstValue);
+        Node<Integer> newRoot = new Node(firstValue);
         while(!bst.isEmpty()){
             int value = bst.pollFirst();
-            Node newNode = new Node(value);
+            Node<Integer> newNode = new Node<>(value);
             newRoot.next = newNode;
         }
 
@@ -85,25 +85,25 @@ public class LinkedListOps {
      * @param current
      * @return
      */
-    public static boolean deleteMiddleNode(Node current){
+    public static boolean deleteMiddleNode(Node<Integer> current){
         if(current ==  null && current.next == null){
             System.out.println("Not enough elements");
             return false;
         }
-        Node next = current.next;
+        Node<Integer> next = current.next;
         current.item = next.item;
         current.next = next.next;
         return true;
     }
 
-    static Node insertNodeAtPosition(Node head, int data, int position) {
+    static Node<Integer> insertNodeAtPosition(Node<Integer> head, int data, int position) {
         int pointer = 0;
-        Node previous = head;
+        Node<Integer> previous = head;
         while(pointer != position-1){
             previous = previous.next;
             pointer++;
         }
-        previous.next = new Node(data,previous.next);
+        previous.next = new Node<>(data,previous.next);
 
         return head;
     }
@@ -127,10 +127,10 @@ public class LinkedListOps {
      * @param head2
      * @return
      */
-    static Node findMergePoint(Node head1, Node head2){
-        Node head1cp = head1;
+    static Node<Integer> findMergePoint(Node<Integer> head1, Node<Integer> head2){
+        Node<Integer> head1cp = head1;
         outer : while(head1cp != null){
-            Node head2cp = head2;
+            Node<Integer> head2cp = head2;
             while(head2cp != null){
                 if(head1cp == head2cp){
                     break outer;
@@ -148,9 +148,9 @@ public class LinkedListOps {
      * @param head2
      * @return
      */
-    static int findMergePointEffective(Node head1, Node head2){
-        Node currentA = head1;
-        Node currentB = head2;
+    static int findMergePointEffective(Node<Integer> head1, Node<Integer> head2){
+        Node<Integer> currentA = head1;
+        Node<Integer> currentB = head2;
 
         //Do till the two nodes are the same
         while(currentA != currentB){
@@ -171,14 +171,14 @@ public class LinkedListOps {
         return currentB.item;
     }
 
-    static Node sumLists(Node num1, Node num2){
-        Node current1 = num1;
-        Node current2 = num2;
+    static Node<Integer> sumLists(Node<Integer> num1, Node<Integer> num2){
+        Node<Integer> current1 = num1;
+        Node<Integer> current2 = num2;
 
         ArrayDeque<Integer> num1Stack = new ArrayDeque<>();
         ArrayDeque<Integer> num2Stack = new ArrayDeque<>();
 
-        Node sum = new Node(0);
+        Node<Integer> sum = new Node<Integer>(0);
         while(current1 != null){
             num1Stack.push(current1.item);
             current1 = current1.next;
@@ -188,45 +188,69 @@ public class LinkedListOps {
             current2 = current2.next;
         }
         int carry=0;
-        Node sumPointer = sum;
+        Node<Integer> sumPointer = sum;
         while(!num1Stack.isEmpty() || !num2Stack.isEmpty()){
             int nodeSum = num1Stack.pop() + num2Stack.pop();
             carry = nodeSum / 10;
             nodeSum = nodeSum%10;
             sumPointer.item = carry + nodeSum;
-            sumPointer.next = new Node(0);
+            sumPointer.next = new Node<>(0);
             sumPointer = sumPointer.next;
         }
 
         return sum;
     }
 
+    static boolean isPalindrome(Node<Character> head){
+        int size = getSize(head);
 
-    private static final Scanner scanner = new Scanner(System.in);
-    public static void main(String[] args){
+        Node<Character> pointer = head;
+        int count = 0;
+        ArrayDeque<Character> deque = new ArrayDeque<>();
 
-        int t = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-        for (int tItr = 0; tItr < t; tItr++) {
-            DoublyLinkedList llist = new DoublyLinkedList();
-
-            int llistCount = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-            for (int i = 0; i < llistCount; i++) {
-                int llistItem = scanner.nextInt();
-                scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-                llist.insertNode(llistItem);
+        while(pointer != null){
+            if(count > size/2){
+                deque.push(pointer.item);
             }
-
-            DoublyLinkedListNode llist1 = reverse(llist.head);
-
-            printDoublyLinkedList(llist1, " ");
+            pointer = pointer.next;
+            count++;
         }
 
-        scanner.close();
+        while(!deque.isEmpty()){
+            if(head.item != deque.pop()){
+                return false;
+            }
+            head = head.next;
+        }
+
+        return true;
+    }
+
+    static int getSize(Node<?> head){
+        if(head == null){
+            return 1;
+        }
+        return 1 + getSize(head.next);
+    }
+
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args){
+
+        Node<Character> head = new Node<>('d');
+        Node<Character> node1 = new Node<>('a');
+        Node<Character> node2 = new Node<>('b');
+        Node<Character> node4 = new Node<>('b');
+        Node<Character> node5 = new Node<>('a');
+        Node<Character> node6 = new Node<>('d');
+        head.next = node1;
+        node1.next = node2;
+        node2.next = node4;
+        node4.next = node5;
+        node5.next = node6;
+
+        System.out.println(isPalindrome(head));
     }
 
     static class DoublyLinkedListNode {
@@ -276,23 +300,16 @@ public class LinkedListOps {
         }
     }
 
-    private static class Node {
-        int item;
-        Node next;
-        Node prev;
+    private static class Node<T> {
+        T item;
+        Node<T> next;
 
-        Node(int element,Node next) {
+        Node(T element,Node<T> next) {
             this.item = element;
             this.next = next;
         }
-        Node(int element) {
+        Node(T element) {
             this.item = element;
-        }
-
-        Node(int element,Node next, Node prev) {
-            this.item = element;
-            this.next = next;
-            this.prev = prev;
         }
     }
 }
