@@ -1,5 +1,7 @@
 package com.dz.io.datastructures;
 
+import com.sun.source.doctree.SummaryTree;
+
 import java.util.*;
 
 public class LinkedListOps {
@@ -168,6 +170,37 @@ public class LinkedListOps {
         }
         return currentB.item;
     }
+
+    static Node sumLists(Node num1, Node num2){
+        Node current1 = num1;
+        Node current2 = num2;
+
+        ArrayDeque<Integer> num1Stack = new ArrayDeque<>();
+        ArrayDeque<Integer> num2Stack = new ArrayDeque<>();
+
+        Node sum = new Node(0);
+        while(current1 != null){
+            num1Stack.push(current1.item);
+            current1 = current1.next;
+        }
+        while(current2 != null){
+            num2Stack.push(current2.item);
+            current2 = current2.next;
+        }
+        int carry=0;
+        Node sumPointer = sum;
+        while(!num1Stack.isEmpty() || !num2Stack.isEmpty()){
+            int nodeSum = num1Stack.pop() + num2Stack.pop();
+            carry = nodeSum / 10;
+            nodeSum = nodeSum%10;
+            sumPointer.item = carry + nodeSum;
+            sumPointer.next = new Node(0);
+            sumPointer = sumPointer.next;
+        }
+
+        return sum;
+    }
+
 
     private static final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args){
