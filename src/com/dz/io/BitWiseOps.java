@@ -54,24 +54,61 @@ public class BitWiseOps {
     }
 
     public static void main(String[] args) {
-        //repeatedArithmeticShift(-93242,32);
-        //repeatedLogicalShift(-93242,32);
-        //System.out.println(Integer.toBinaryString(6));
-        //System.out.println(Integer.toBinaryString(32));
-        //System.out.println(getBit(32,6));
-        //System.out.println(Integer.toBinaryString(512));
-        System.out.println(Integer.toBinaryString(~(1<<6)));
-        //System.out.println(Integer.toBinaryString(insert(1024,19,2,6)));
-        System.out.println(toBinaryString(35));
+        String bs = printBinary(.125);
+        System.out.println(bs);
+
+        for (int i = 0; i < 1000; i++) {
+            double num = i / 1000.0;
+            String binary = printBinary(num);
+            String binary2 = printBinary2(num);
+            if (!binary.equals("ERROR") || !binary2.equals("ERROR")) {
+                System.out.println(num + " : " + binary + " " + binary2);
+            }
+        }
     }
 
-    public static String toBinaryString(int num){
-        StringBuilder sb = new StringBuilder();
-
-        while(num > 0){
-            sb.append(num%2);
-            num = num/2;
+    public static String printBinary(double num) {
+        if (num >= 1 || num <= 0) {
+            return "ERROR";
         }
-        return sb.reverse().toString();
+
+        StringBuilder binary = new StringBuilder();
+        binary.append(".");
+        while (num > 0) {
+            /* Setting a limit on length: 32 characters */
+            double r = num * 2;
+            if (r >= 1) {
+                binary.append(1);
+                num = r - 1;
+            } else {
+                binary.append(0);
+                num = r;
+            }
+        }
+        return binary.toString();
+    }
+
+    public static String printBinary2(double num) {
+        if (num >= 1 || num <= 0) {
+            return "ERROR";
+        }
+
+        StringBuilder binary = new StringBuilder();
+        double frac = 0.5;
+        binary.append(".");
+        while (num > 0) {
+            /* Setting a limit on length: 32 characters */
+            if (binary.length() >= 32) {
+                return "ERROR";
+            }
+            if (num >= frac) {
+                binary.append(1);
+                num -= frac;
+            } else {
+                binary.append(0);
+            }
+            frac /= 2;
+        }
+        return binary.toString();
     }
 }
