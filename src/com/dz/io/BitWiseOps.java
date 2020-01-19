@@ -53,20 +53,6 @@ public class BitWiseOps {
         return M | (N << i);
     }
 
-    public static void main(String[] args) {
-        String bs = printBinary(.125);
-        System.out.println(bs);
-
-        for (int i = 0; i < 1000; i++) {
-            double num = i / 1000.0;
-            String binary = printBinary(num);
-            String binary2 = printBinary2(num);
-            if (!binary.equals("ERROR") || !binary2.equals("ERROR")) {
-                System.out.println(num + " : " + binary + " " + binary2);
-            }
-        }
-    }
-
     public static String printBinary(double num) {
         if (num >= 1 || num <= 0) {
             return "ERROR";
@@ -110,5 +96,32 @@ public class BitWiseOps {
             frac /= 2;
         }
         return binary.toString();
+    }
+
+    public static int longestOneSequence(int num){
+        int max = 0;
+        int candidate = 0;
+        boolean tolerance = true;
+
+        for(int i = 0;i<32;i++){
+            if(getBit(num,i)){
+                candidate++;
+            }else{
+                if(tolerance){
+                    candidate++;
+                    tolerance =false;
+                }else{
+                    candidate=0;
+                    tolerance=true;
+                }
+            }
+            max = Math.max(max,candidate);
+        }
+        return max;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Integer.toBinaryString(Integer.MAX_VALUE));
+        System.out.println(longestOneSequence(Integer.MAX_VALUE));
     }
 }
