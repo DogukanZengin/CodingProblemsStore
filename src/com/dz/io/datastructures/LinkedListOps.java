@@ -3,6 +3,7 @@ package com.dz.io.datastructures;
 import com.sun.source.doctree.SummaryTree;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class LinkedListOps {
     /**
@@ -224,6 +225,25 @@ public class LinkedListOps {
         }
 
         return true;
+    }
+
+    static boolean doesIntersect(Node<Object> root1, Node<Object> root2){
+        Node<Object> ref1 = root1;
+        Node<Object> ref2 = root2;
+
+        while(ref1.next != null){
+            ref1 = ref1.next;
+        }
+
+        while(ref2.next != null){
+            ref2 = ref2.next;
+        }
+
+        if(ref1.equals(ref2)){
+            return true;
+        }
+
+        return false;
     }
 
     static int getSize(Node<?> head){
