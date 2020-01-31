@@ -18,8 +18,10 @@ public class QueueWith2Stacks<T> {
     }
 
     T poll(){
-        while(!in.isEmpty()){
-            out.push(in.pop());
+        if(out.isEmpty()){
+            while(!in.isEmpty()){
+                out.push(in.pop());
+            }
         }
         return out.pop();
     }
